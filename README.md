@@ -1,5 +1,8 @@
 # Terraform & Kubernetes
 테라폼으로 쿠버네티스와 쿠버네티스 운영 환경을 구성하기 위한 `best practice architecture`를 만든다.
+## Terraform
+### k8s
+쿠버네티스 컨트롤 플레인과 워커노드를 각각 단일 노드에 대해서 클러스터링
 
 ## Modules
 ### control-plane
