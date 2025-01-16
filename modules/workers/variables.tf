@@ -1,7 +1,7 @@
 variable "name" {
   description = "The name of the instance"
   type        = string
-  default = "control-plane01"
+  default = "tester"
 }
 
 variable "project" {

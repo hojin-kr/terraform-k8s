@@ -44,6 +44,3 @@ sudo systemctl enable --now kubelet
 # 추가 설정 및 확인
 sudo sed -i '/net.ipv4.ip_forward/s/^#//g' /etc/sysctl.conf
 sudo sysctl -p
-
-# kubeadm 초기화
-sudo kubeadm init
