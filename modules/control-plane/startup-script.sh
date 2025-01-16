@@ -27,14 +27,6 @@ sudo systemctl enable containerd
 sudo swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/' /etc/fstab
 
-# 포트 설정
-sudo ufw allow 6443/tcp    # kube-apiserver
-sudo ufw allow 2379:2380/tcp  # etcd
-sudo ufw allow 10250/tcp   # kubelet
-sudo ufw allow 10257/tcp   # kube-controller-manager
-sudo ufw allow 10259/tcp   # kube-scheduler
-sudo ufw reload
-
 # Kubernetes 패키지 저장소 추가
 # If the directory `/etc/apt/keyrings` does not exist, it should be created before the curl command, read the note below.
 # sudo mkdir -p -m 755 /etc/apt/keyrings
