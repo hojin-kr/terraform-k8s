@@ -5,7 +5,6 @@ Kubernetes Contol-Plane을 구성한다.
 - 패키지 시스템 업데이트
 - Container Runtime 설치
 - 스왑 비활성화
-- 포트 설정
 - 쿠버네티스 컨트롤 플레인 설정을 위한 kubeadm 설치
 - kubeadm을 사용해 kubernetes 초기화
 - Container Network Interface 설치
