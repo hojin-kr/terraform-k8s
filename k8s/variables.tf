@@ -132,3 +132,9 @@ variable "vpc-subnet-ip_cidr_range" {
   type        = string
   default = "10.127.0.0/20"
 }
+
+variable "vpc-subnet-allow_source_ranges" {
+  description = "The source ranges to allow"
+  type        = list(string)
+  default = [""]
+}

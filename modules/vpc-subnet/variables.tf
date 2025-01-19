@@ -27,3 +27,15 @@ variable "ip_cidr_range" {
     type        = string
     default = "10.127.0.0/20"
 }
+
+variable "firewall_name" {
+    description = "The name of the firewall rule"
+    type        = string
+    default = "allow-ssh"
+}
+
+variable "allow_source_ranges" {
+    description = "The source ranges to allow"
+    type        = list(string)
+    default = [""]
+}

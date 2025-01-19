@@ -7,6 +7,7 @@ module "vpc-subnet" {
   ip_cidr_range = var.vpc-subnet-ip_cidr_range
   region        = var.vpc-subnet-region
   subnet_name   = var.vpc-subent-subnet-name
+  allow_source_ranges = var.vpc-subnet-allow_source_ranges
 }
 
 module "control-plane" {

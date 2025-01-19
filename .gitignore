@@ -2,3 +2,4 @@
 *.tfstate
 *.tfstate.*
 kubeadm_join_cmd.sh
+.DS_Store
