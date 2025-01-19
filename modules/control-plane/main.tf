@@ -32,12 +32,13 @@ resource "google_compute_instance" "control-plane" {
 
   network_interface {
     access_config {
-      network_tier = "PREMIUM"
+      network_tier = "STANDARD"
     }
 
     queue_count = 0
     stack_type  = "IPV4_ONLY"
     subnetwork  = var.subnetwork
+    subnetwork_project = var.project
   }
 
   scheduling {

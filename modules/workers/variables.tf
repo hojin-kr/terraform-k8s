@@ -48,3 +48,23 @@ variable "labels" {
     env = "test"
   }
 }
+
+variable "min_replicas" {
+  description = "The minimum number of replicas"
+  type        = number
+  default = 1
+}
+
+variable "max_replicas" {
+  description = "The maximum number of replicas"
+  type        = number
+  default = 1
+  
+}
+
+variable "region" {
+  description = "The region in which to create the instance"
+  type        = string
+  default = "us-central1"
+  
+}

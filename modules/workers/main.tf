@@ -1,62 +1,54 @@
-# This code is compatible with Terraform 4.25.0 and versions that are backwards compatible to 4.25.0.
-# For information about validating this Terraform code, see https://developer.hashicorp.com/terraform/tutorials/gcp-get-started/google-cloud-platform-build#format-and-validate-the-configuration
 
-resource "google_compute_instance" "control-plane" {
-  boot_disk {
-    auto_delete = true
-    device_name = var.name
+resource "google_compute_autoscaler" "worker" {
+  project = var.project
+  name = var.name
+  zone = var.zone
 
-    initialize_params {
-      image = var.image
-      size  = var.size
-      type  = "pd-balanced"
-    }
+  target = google_compute_instance_group_manager.worker.id
 
-    mode = "READ_WRITE"
+  autoscaling_policy {
+    max_replicas = var.max_replicas
+    min_replicas = var.min_replicas
+
+    mode = "ON"
   }
+}
 
-  can_ip_forward      = false
-  deletion_protection = false
-  enable_display      = false
-
-  labels = var.labels
-
-  machine_type = var.machine_type
-
-  metadata = {
-    startup-script = file("${path.module}/startup-script.sh")
-  }
-
+resource "google_compute_instance_template" "worker" {
   name = var.name
   project = var.project
+  machine_type = var.machine_type
+  region = var.region
+
+  disk {
+    source_image = var.image
+    disk_size_gb = var.size
+  }
 
   network_interface {
-    access_config {
-      network_tier = "PREMIUM"
-    }
-
-    queue_count = 0
-    stack_type  = "IPV4_ONLY"
-    subnetwork  = var.subnetwork
+    subnetwork = var.subnetwork
+    subnetwork_project = var.project
   }
 
-  scheduling {
-    automatic_restart   = true
-    on_host_maintenance = "MIGRATE"
-    preemptible         = false
-    provisioning_model  = "STANDARD"
-  }
+  labels = var.labels
+}
 
-  service_account {
-    email  = "1008258433219-compute@developer.gserviceaccount.com"
-    scopes = ["https://www.googleapis.com/auth/devstorage.read_only", "https://www.googleapis.com/auth/logging.write", "https://www.googleapis.com/auth/monitoring.write", "https://www.googleapis.com/auth/service.management.readonly", "https://www.googleapis.com/auth/servicecontrol", "https://www.googleapis.com/auth/trace.append"]
-  }
+resource "google_compute_target_pool" "worker" {
+  project = var.project
+  name = var.name
+  region = var.region
+}
 
-  shielded_instance_config {
-    enable_integrity_monitoring = true
-    enable_secure_boot          = false
-    enable_vtpm                 = true
-  }
-
+resource "google_compute_instance_group_manager" "worker" {
+  project = var.project
+  name = var.name
   zone = var.zone
+
+  version {
+    instance_template = google_compute_instance_template.worker.id
+    name = var.name
+  }
+
+  target_pools = [google_compute_target_pool.worker.id]
+  base_instance_name = var.name
 }
